@@ -124,6 +124,33 @@ function prompt_git -d "Display the actual git state"
   end
 end
 
+function prompt_svn -d "Display the current svn state"
+  set -l ref
+  if command svn ls . >/dev/null 2>&1
+    set branch (svn_get_branch)
+    set branch_symbol \uE0A0
+    set revision (svn_get_revision)
+    prompt_segment green black "$branch_symbol $branch:$revision"
+  end
+end
+
+function svn_get_branch -d "get the current branch name"
+  svn info 2> /dev/null | awk -F/ \
+      '/^URL:/ { \
+        for (i=0; i<=NF; i++) { \
+          if ($i == "branches" || $i == "tags" ) { \
+            print $(i+1); \
+            break;\
+          }; \
+          if ($i == "trunk") { print $i; break; } \
+        } \
+      }'
+end
+
+function svn_get_revision -d "get the current revision number"
+  svn info 2> /dev/null | sed -n 's/Revision:\ //p'
+end
+
 function prompt_status -d "the symbols for a non zero exit status, root and background jobs"
     if [ $RETVAL -ne 0 ]
       prompt_segment black red "✘"
@@ -150,6 +177,7 @@ function fish_prompt
   prompt_status
   prompt_user
   prompt_dir
+  prompt_svn
   prompt_git
   prompt_finish
 end
