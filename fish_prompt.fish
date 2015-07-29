@@ -126,7 +126,7 @@ end
 
 function prompt_svn -d "Display the current svn state"
   set -l ref
-  if command svn ls . >/dev/null 2>&1
+  if type svn >/dev/null 2>&1; and command svn ls . >/dev/null 2>&1
     set branch (svn_get_branch)
     set branch_symbol \uE0A0
     set revision (svn_get_revision)
