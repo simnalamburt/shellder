@@ -88,7 +88,7 @@ end
 # Theme components
 # ===========================
 
-function prompt_user -d "Display actual user if different from $default_user"
+function prompt_user -d "Display current user if different from $default_user"
   if [ "$theme_display_user" = "yes" ]
     if [ "$USER" != "$default_user" -o -n "$SSH_CLIENT" ]
       set USER_PROMPT (whoami)@(hostname)
@@ -97,18 +97,17 @@ function prompt_user -d "Display actual user if different from $default_user"
   end
 end
 
-function prompt_dir -d "Display the actual directory"
+function prompt_dir -d "Display the current directory"
   prompt_segment blue black (prompt_pwd)
 end
 
 
 
-function prompt_git -d "Display the actual git state"
+function prompt_git -d "Display the current git state"
   set -l ref
   set -l dirty
   if command git rev-parse --is-inside-work-tree >/dev/null 2>&1
     set dirty (parse_git_dirty)
-    set ref (command git symbolic-ref HEAD 2> /dev/null)
     set ref (command git symbolic-ref HEAD 2> /dev/null)
     if [ $status -gt 0 ]
       set -l branch (command git show-ref --head -s --abbrev |head -n1 2> /dev/null)
@@ -126,11 +125,13 @@ end
 
 function prompt_svn -d "Display the current svn state"
   set -l ref
-  if type svn >/dev/null 2>&1; and command svn ls . >/dev/null 2>&1
-    set branch (svn_get_branch)
-    set branch_symbol \uE0A0
-    set revision (svn_get_revision)
-    prompt_segment green black "$branch_symbol $branch:$revision"
+  if type svn >/dev/null 2>&1;
+    if command svn ls . >/dev/null 2>&1
+      set branch (svn_get_branch)
+      set branch_symbol \uE0A0
+      set revision (svn_get_revision)
+      prompt_segment green black "$branch_symbol $branch:$revision"
+    end
   end
 end
 

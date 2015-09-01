@@ -1,6 +1,6 @@
 ## agnoster
 
-A ZSH theme optimized for people who use:
+A fish theme optimized for people who use:
 
 * Solarized
 * Git
