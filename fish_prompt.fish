@@ -88,6 +88,12 @@ end
 # Theme components
 # ===========================
 
+function prompt_virtual_env -d "Display Python virtual environment"
+  if test "$VIRTUAL_ENV"
+    prompt_segment white black (basename $VIRTUAL_ENV)
+  end
+end
+
 function prompt_user -d "Display current user if different from $default_user"
   if [ "$theme_display_user" = "yes" ]
     if [ "$USER" != "$default_user" -o -n "$SSH_CLIENT" ]
@@ -101,6 +107,25 @@ function prompt_dir -d "Display the current directory"
   prompt_segment blue black (prompt_pwd)
 end
 
+
+function prompt_hg -d "Display mercurial state"
+  set -l branch
+  set -l state
+  if command hg id >/dev/null 2>&1
+    if command hg prompt >/dev/null 2>&1
+      set branch (command hg prompt "{branch}")
+      set state (command hg prompt "{status}")
+      set branch_symbol \uE0A0
+      if [ "$state" = "!" ]
+        prompt_segment red white "$branch_symbol $branch ±"
+      else if [ "$state" = "?" ]
+          prompt_segment yellow black "$branch_symbol $branch ±"
+        else
+          prompt_segment green black "$branch_symbol $branch"
+      end
+    end
+  end
+end
 
 
 function prompt_git -d "Display the current git state"
@@ -122,6 +147,7 @@ function prompt_git -d "Display the current git state"
     end
   end
 end
+
 
 function prompt_svn -d "Display the current svn state"
   set -l ref
@@ -152,6 +178,7 @@ function svn_get_revision -d "get the current revision number"
   svn info 2> /dev/null | sed -n 's/Revision:\ //p'
 end
 
+
 function prompt_status -d "the symbols for a non zero exit status, root and background jobs"
     if [ $RETVAL -ne 0 ]
       prompt_segment black red "✘"
@@ -176,9 +203,11 @@ end
 function fish_prompt
   set -g RETVAL $status
   prompt_status
+  prompt_virtual_env
   prompt_user
   prompt_dir
-  prompt_svn
+  prompt_hg
   prompt_git
+  prompt_svn
   prompt_finish
 end
