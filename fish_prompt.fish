@@ -170,13 +170,11 @@ end
 
 function prompt_svn -d "Display the current svn state"
   set -l ref
-  if type svn >/dev/null 2>&1;
-    if command svn ls . >/dev/null 2>&1
-      set branch (svn_get_branch)
-      set branch_symbol \uE0A0
-      set revision (svn_get_revision)
-      prompt_segment green black "$branch_symbol $branch:$revision"
-    end
+  if command svn ls . >/dev/null 2>&1
+    set branch (svn_get_branch)
+    set branch_symbol \uE0A0
+    set revision (svn_get_revision)
+    prompt_segment green black "$branch_symbol $branch:$revision"
   end
 end
 
@@ -225,8 +223,8 @@ function fish_prompt
   prompt_virtual_env
   prompt_user
   prompt_dir
-  prompt_hg
-  prompt_git
-  prompt_svn
+  available hg;  and prompt_hg
+  available git; and prompt_git
+  available svn; and prompt_svn
   prompt_finish
 end
