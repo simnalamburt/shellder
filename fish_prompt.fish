@@ -91,7 +91,6 @@ end
 
 function prompt_virtual_env -d "Display Python virtual environment"
   if test "$VIRTUAL_ENV"
-    set --universal --export VIRTUAL_ENV_DISABLE_PROMPT 'True'
     prompt_segment white black (basename $VIRTUAL_ENV)
   end
 end
