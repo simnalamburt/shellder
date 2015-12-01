@@ -2,7 +2,7 @@ shellder
 ========
 My own zsh theme!
 
-![](http://i.imgur.com/HAJibfg.png)
+![](http://i.imgur.com/xZJHgq8.png)
 
 Install with [zgen][]
 ```zsh
