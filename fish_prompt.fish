@@ -213,6 +213,10 @@ function prompt_status -d "the symbols for a non zero exit status, root and back
     end
 end
 
+function available -a name -d "Check if a function or program is available."
+  type "$name" ^/dev/null >&2
+end
+
 # ===========================
 # Apply theme
 # ===========================
