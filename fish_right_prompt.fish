@@ -17,6 +17,10 @@ function prompt_vi_mode -d 'vi mode status indicator'
             set_color red
             echo -n "$right_segment_separator"
             prompt_segment red black "V"
+        case replace-one
+            set_color yellow
+            echo -n "$right_segment_separator"
+            prompt_segment yellow black "R"
     end
     if [ -n $current_bg ]
         set_color -b normal
