@@ -26,7 +26,7 @@ For Mac users, I highly recommend iTerm 2 + Solarized Dark
 * Current virtualenv (Python)
 You will probably want to disable the default virtualenv prompt. Add to your [`init.fish`](https://github.com/oh-my-fish/oh-my-fish#dotfiles):
 `set --export VIRTUAL_ENV_DISABLE_PROMPT 1`
-* Indicate vi mode
+* Indicate vi mode. (If you've set `fish_vi_mode` in your config and don't like the ugly left prompt indicator you can solve this by replacing it with `set -g fish_key_bindings fish_vi_key_bindings` and then removing the `if set -q __fish_vi_mode` check at the bottom of the `fish_right_prompt.fish`)
 
 
 Ported from https://gist.github.com/agnoster/3712874.

@@ -30,5 +30,7 @@ function prompt_vi_mode -d 'vi mode status indicator'
 end
 
 function fish_right_prompt -d 'Prints right prompt'
-    prompt_vi_mode
+    if set -q __fish_vi_mode
+        prompt_vi_mode
+    end
 end
