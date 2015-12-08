@@ -1,4 +1,4 @@
-t prompt for agnoster theme
+# right prompt for agnoster theme
 # shows vim mode status
 
 set right_segment_separator \uE0B2
@@ -51,12 +51,12 @@ function prompt_vi_mode -d 'vi mode status indicator'
     end
 end
 
-
 function fish_right_prompt -d 'Prints right prompt'
+  if set -q __fish_vi_mode
     set -l first_color black
     set_color $first_color
     echo "$right_segment_separator"
-    right_prompt_segment $first_color red (date +"%H:%M")
     prompt_vi_mode
     end_right_prompt
+  end
 end
