@@ -4,9 +4,16 @@ My own zsh theme!
 
 ![](http://i.imgur.com/xZJHgq8.png)
 
-Install with [zgen][]
+#### Installation
+With [zplug][]:
+```zsh
+zplug "simnalamburt/shellder"
+```
+
+With [zgen][]:
 ```zsh
 zgen load simnalamburt/shellder shellder
 ```
 
+[zplug]: https://github.com/b4b4r07/
 [zgen]: https://github.com/tarjoilija/zgen
