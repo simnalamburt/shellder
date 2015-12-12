@@ -5,7 +5,7 @@ My own zsh theme!
 ![](http://i.imgur.com/xZJHgq8.png)
 
 #### Installation
-With [zplug][]:
+With [zplug][]: *(recommended)*
 ```zsh
 zplug "simnalamburt/shellder"
 ```
