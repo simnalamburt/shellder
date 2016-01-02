@@ -149,14 +149,31 @@ function prompt_git -d "Display the current git state"
     set branch_symbol \uE0A0
     set -l branch (echo $ref | sed  "s-refs/heads/-$branch_symbol -")
 
-    set -l BG
+    set -l BG PROMPT
     set -l dirty (parse_git_dirty)
     if [ "$dirty" = "" ]
       set BG green
+      set PROMPT "$branch"
     else
       set BG yellow
+
+      # Check for unstaged change
+      set -l unstaged 0
+      git diff --no-ext-diff --ignore-submodules=dirty --quiet --exit-code; or set unstaged 1
+      if [ $unstaged = 1 ]
+        set dirty '●'
+      else
+        set dirty ''
+      end
+
+      # Check for dirty
+      if [ "$dirty" = "" ]
+        set PROMPT "$branch"
+      else
+        set PROMPT "$branch $dirty"
+      end
     end
-    prompt_segment $BG black "$branch"
+    prompt_segment $BG black $PROMPT
   end
 end
 
