@@ -165,7 +165,7 @@ function prompt_git -d "Display the current git state"
     if [ "$dirty" != "" ]
       prompt_segment yellow black "$branch $dirty"
     else
-      prompt_segment green black "$branch $dirty"
+      prompt_segment green black "$branch"
     end
   end
 end
