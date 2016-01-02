@@ -27,16 +27,6 @@
 
 setopt prompt_subst
 
-# Helper function
-# Checks if working tree is dirty
-function __parse_git_dirty() {
-  local DIRTY=''
-  DIRTY=$(command git status --porcelain --ignore-submodules=dirty 2> /dev/null)
-  if [[ -n $DIRTY ]]; then
-    echo '*'
-  fi
-}
-
 
 ### Segment drawing
 # A few utility functions to make it easy and re-usable to draw segmented prompts
@@ -105,22 +95,28 @@ prompt_context() {
 
 # Git: branch/detached head, dirty status
 prompt_git() {
-  local PL_BRANCH_CHAR
-  () {
-    local LC_ALL="" LC_CTYPE="en_US.UTF-8"
-    PL_BRANCH_CHAR=$'\ue0a0'         # 
-  }
-  local ref dirty mode repo_path
+  local repo_path
   repo_path=$(git rev-parse --git-dir 2>/dev/null)
 
-  if $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
-    dirty=$(__parse_git_dirty)
-    ref=$(git symbolic-ref HEAD 2> /dev/null) || ref="➦ $(git rev-parse --short HEAD 2> /dev/null)"
+  if [[ -n $repo_path ]]; then
+    local PL_BRANCH_CHAR dirty color mode ref
+
+    () {
+      local LC_ALL="" LC_CTYPE="en_US.UTF-8"
+      PL_BRANCH_CHAR=$'\ue0a0' # 
+    }
+
+    dirty=$(command git status --porcelain --ignore-submodules=dirty 2> /dev/null)
     if [[ -n $dirty ]]; then
-      prompt_segment yellow black
+      if [[ -z $MSYS ]]; then
+        color='yellow'
+      else
+        color='202' # vcs_info will be disabled with MSYS2, warn it with color
+      fi
     else
-      prompt_segment green black
+      color='green'
     fi
+    prompt_segment $color black
 
     if [[ -e "${repo_path}/BISECT_LOG" ]]; then
       mode=" <B>"
@@ -130,15 +126,23 @@ prompt_git() {
       mode=" >R>"
     fi
 
-    autoload -Uz vcs_info
-    zstyle ':vcs_info:*' enable git
-    zstyle ':vcs_info:*' get-revision true
-    zstyle ':vcs_info:*' check-for-changes true
-    zstyle ':vcs_info:*' stagedstr '✚'
-    zstyle ':vcs_info:*' unstagedstr '●'
-    zstyle ':vcs_info:*' formats ' %u%c'
-    zstyle ':vcs_info:*' actionformats ' %u%c'
-    vcs_info
+    # vcs_info is too slow with MSYS2 (~300ms with i7-6770K + SSD)
+    if [[ -z $MSYS ]]; then
+      autoload -Uz vcs_info
+      zstyle ':vcs_info:*' enable git
+      zstyle ':vcs_info:*' check-for-changes true
+      zstyle ':vcs_info:*' stagedstr '✚'
+      zstyle ':vcs_info:*' unstagedstr '●'
+      zstyle ':vcs_info:*' formats ' %u%c'
+      zstyle ':vcs_info:*' actionformats ' %u%c'
+      vcs_info
+    else
+      if [[ -n $dirty ]]; then
+        vcs_info_msg_0_=' !'
+      fi
+    fi
+
+    ref=$(git symbolic-ref HEAD 2> /dev/null) || ref="➦ $(git rev-parse --short HEAD 2> /dev/null)"
     echo -n "${ref/refs\/heads\//$PL_BRANCH_CHAR }${vcs_info_msg_0_%% }${mode}"
   fi
 }
