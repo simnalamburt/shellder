@@ -156,15 +156,30 @@ function prompt_git -d "Display the current git state"
       set PROMPT "$branch"
     else
       set BG yellow
+      set dirty ''
 
-      # Check for unstaged change
-      set -l unstaged 0
-      git diff --no-ext-diff --ignore-submodules=dirty --quiet --exit-code; or set unstaged 1
-      if [ $unstaged = 1 ]
-        set dirty '●'
+      # Check if there's any commit in the repo
+      set -l empty 0
+      git rev-parse --quiet --verify HEAD > /dev/null ^&1; or set empty 1
+
+      set -l target
+      if [ $empty = 1 ]
+        # The repo is empty
+        set target '4b825dc642cb6eb9a060e54bf8d69288fbee4904'
       else
-        set dirty ''
+        # The repo is not emtpy
+        set target 'HEAD'
+
+        # Check for unstaged change only when the repo is not empty
+        set -l unstaged 0
+        git diff --no-ext-diff --ignore-submodules=dirty --quiet --exit-code; or set unstaged 1
+        if [ $unstaged = 1 ]; set dirty $dirty'●'; end
       end
+
+      # Check for staged change
+      set -l staged 0
+      git diff-index --cached --quiet --exit-code --ignore-submodules=dirty $target; or set staged 1
+      if [ $staged = 1 ]; set dirty $dirty'✚'; end
 
       # Check for dirty
       if [ "$dirty" = "" ]
