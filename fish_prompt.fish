@@ -96,6 +96,9 @@ function prompt_virtual_env -d "Display Python virtual environment"
 end
 
 function prompt_user -d "Display current user if different from $default_user"
+  set -l BG 444444
+  set -l FG BCBCBC
+
   if [ "$theme_display_user" = "yes" ]
     if [ "$USER" != "$default_user" -o -n "$SSH_CLIENT" ]
       set USER (whoami)
@@ -105,12 +108,12 @@ function prompt_user -d "Display current user if different from $default_user"
       else
         set USER_PROMPT $USER
       end
-      prompt_segment black yellow $USER_PROMPT
+      prompt_segment $BG $FG $USER_PROMPT
     end
   else
     get_hostname
     if [ $HOSTNAME_PROMPT ]
-      prompt_segment black yellow $HOSTNAME_PROMPT
+      prompt_segment $BG $FG $HOSTNAME_PROMPT
     end
   end
 end
@@ -123,7 +126,7 @@ function get_hostname -d "Set current hostname to prompt variable $HOSTNAME_PROM
 end
 
 function prompt_dir -d "Display the current directory"
-  prompt_segment blue black (prompt_pwd)
+  prompt_segment 1C1C1C FFFFFF (prompt_pwd)
 end
 
 
