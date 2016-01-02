@@ -25,6 +25,19 @@
 # jobs are running in this shell will all be displayed automatically when
 # appropriate.
 
+setopt prompt_subst
+
+# Helper function
+# Checks if working tree is dirty
+function __parse_git_dirty() {
+  local DIRTY=''
+  DIRTY=$(command git status --porcelain --ignore-submodules=dirty 2> /dev/null)
+  if [[ -n $DIRTY ]]; then
+    echo '*'
+  fi
+}
+
+
 ### Segment drawing
 # A few utility functions to make it easy and re-usable to draw segmented prompts
 
@@ -92,7 +105,6 @@ prompt_context() {
 
 # Git: branch/detached head, dirty status
 prompt_git() {
-
   local PL_BRANCH_CHAR
   () {
     local LC_ALL="" LC_CTYPE="en_US.UTF-8"
@@ -102,7 +114,7 @@ prompt_git() {
   repo_path=$(git rev-parse --git-dir 2>/dev/null)
 
   if $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
-    dirty=$(parse_git_dirty)
+    dirty=$(__parse_git_dirty)
     ref=$(git symbolic-ref HEAD 2> /dev/null) || ref="➦ $(git rev-parse --short HEAD 2> /dev/null)"
     if [[ -n $dirty ]]; then
       prompt_segment yellow black
@@ -118,9 +130,7 @@ prompt_git() {
       mode=" >R>"
     fi
 
-    setopt promptsubst
     autoload -Uz vcs_info
-
     zstyle ':vcs_info:*' enable git
     zstyle ':vcs_info:*' get-revision true
     zstyle ':vcs_info:*' check-for-changes true
