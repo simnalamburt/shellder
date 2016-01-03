@@ -9,24 +9,25 @@ shellder
 3. **zsh** + **fish** support
 
 #### Installation
-[zplug] is recommended
-```zsh
-# Powerline patched font required
-
-# with zplug
+[zplug] for zsh user, [oh my fish] for fish user
+```shell
+# For zsh user
 zplug "simnalamburt/shellder"
 
-# with zgen
-zgen load simnalamburt/shellder shellder
+# For fish user
+omf install https://github.com/simnalamburt/theme-shellder
 ```
+
+You'll need powerline patched font.
 
 --------
 
 [MIT License] © [simnalamburt] et [al]
 
-[Jean Anouilh]: https://en.wikipedia.org/wiki/Jean_Anouilh
-[seoul256.vim]: https://github.com/junegunn/seoul256.vim
-[zplug]: https://github.com/b4b4r07/
+[Jean Anouilh]:   https://en.wikipedia.org/wiki/Jean_Anouilh
+[seoul256.vim]:   https://github.com/junegunn/seoul256.vim
+[zplug]:          https://github.com/b4b4r07/
+[oh my fish]:     https://github.com/oh-my-fish/oh-my-fish
 [MIT License]:    https://opensource.org/licenses/MIT
 [simnalamburt]:   https://github.com/simnalamburt
 [al]:             https://github.com/simnalamburt/shellder/graphs/contributors
