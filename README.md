@@ -11,11 +11,11 @@ shellder
 #### Installation
 [zplug] for zsh user, [oh my fish] for fish user
 ```shell
-# For zsh user
+# zsh
 zplug "simnalamburt/shellder"
 
-# For fish user
-omf install https://github.com/simnalamburt/theme-shellder
+# fish
+omf install shellder
 ```
 
 You'll need powerline patched font.
