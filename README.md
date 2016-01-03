@@ -3,7 +3,8 @@
 
 shellder
 ========
-> Things are beautiful if you love them. *[Jean Anouilh]*
+> Things are beautiful if you love them. ― *[Jean Anouilh]*<br>
+[![i-license]](/LICENSE)
 
 <br>
 
@@ -36,3 +37,5 @@ You'll need powerline patched font.
 [MIT License]:    https://opensource.org/licenses/MIT
 [simnalamburt]:   https://github.com/simnalamburt
 [al]:             https://github.com/simnalamburt/shellder/graphs/contributors
+
+[i-license]:      https://img.shields.io/badge/license-MIT-blue.svg
