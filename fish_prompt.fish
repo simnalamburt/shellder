@@ -1,36 +1,15 @@
-# name: Agnoster
-# agnoster's Theme - https://gist.github.com/3712874
-# A Powerline-inspired theme for FISH
+# Set these options in your config.fish (if you want to :])
 #
-# # README
+#     set -g theme_display_user yes
+#     set -g theme_hide_hostname yes
+#     set -g default_user your_normal_user
+
+
 #
-# In order for this theme to render correctly, you will need a
-# [Powerline-patched font](https://gist.github.com/1595572).
-
-## Set this options in your config.fish (if you want to :])
-# set -g theme_display_user yes
-# set -g theme_hide_hostname yes
-# set -g default_user your_normal_user
-
-
-
+# Segments functions
+#
 set -g current_bg NONE
 set segment_separator \uE0B0
-# ===========================
-# Helper methods
-# ===========================
-
-function parse_git_dirty
-  set -l dirty (command git status --porcelain --ignore-submodules=dirty 2> /dev/null)
-  if [ -n "$dirty" ]
-    echo -n '*'
-  end
-end
-
-
-# ===========================
-# Segments functions
-# ===========================
 
 function prompt_segment -d "Function to draw a segment"
   set -l bg
@@ -72,15 +51,15 @@ function prompt_finish -d "Close open segments"
 end
 
 
-# ===========================
-# Theme components
-# ===========================
-
+#
+# Components
+#
 function prompt_virtual_env -d "Display Python virtual environment"
   if test "$VIRTUAL_ENV"
     prompt_segment white black (basename $VIRTUAL_ENV)
   end
 end
+
 
 function prompt_user -d "Display current user if different from $default_user"
   set -l BG 444444
@@ -111,6 +90,7 @@ function get_hostname -d "Set current hostname to prompt variable $HOSTNAME_PROM
     set -g HOSTNAME_PROMPT (hostname)
   end
 end
+
 
 function prompt_dir -d "Display the current directory"
   prompt_segment 1C1C1C FFFFFF (prompt_pwd)
@@ -149,7 +129,7 @@ function prompt_git -d "Display the current git state"
     set -l branch (echo $ref | sed  "s-refs/heads/-$branch_symbol -")
 
     set -l BG PROMPT
-    set -l dirty (parse_git_dirty)
+    set -l dirty (command git status --porcelain --ignore-submodules=dirty 2> /dev/null)
     if [ "$dirty" = "" ]
       set BG green
       set PROMPT "$branch"
@@ -241,10 +221,10 @@ function available -a name -d "Check if a function or program is available."
   type "$name" ^/dev/null >&2
 end
 
-# ===========================
-# Apply theme
-# ===========================
 
+#
+# Prompt
+#
 function fish_prompt
   set -g RETVAL $status
   prompt_status
