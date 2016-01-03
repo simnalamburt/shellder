@@ -1,6 +1,11 @@
+<img src="http://cdn.bulbagarden.net/upload/4/40/090Shellder.png"
+  align=left width=175px height=175px>
+
 shellder
 ========
 > Things are beautiful if you love them. *[Jean Anouilh]*
+
+<br>
 
 ![](http://i.imgur.com/xZJHgq8.png)
 
