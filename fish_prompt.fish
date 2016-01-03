@@ -9,7 +9,7 @@
 # Segments functions
 #
 set -g current_bg NONE
-set segment_separator \uE0B0
+set -g segment_separator \uE0B0
 
 function prompt_segment -d "Function to draw a segment"
   set -l bg
