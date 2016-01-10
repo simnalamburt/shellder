@@ -2,6 +2,7 @@
 #
 #     set -g theme_display_user yes
 #     set -g theme_hide_hostname yes
+#     set -g theme_hide_hostname no
 #     set -g default_user your_normal_user
 
 
@@ -86,7 +87,7 @@ end
 
 function get_hostname -d "Set current hostname to prompt variable $HOSTNAME_PROMPT if connected via SSH"
   set -g HOSTNAME_PROMPT ""
-  if [ "$theme_hide_hostname" != "yes" -a -n "$SSH_CLIENT" ]
+  if [ "$theme_hide_hostname" = "no" -o \( "$theme_hide_hostname" != "yes" -a -n "$SSH_CLIENT" \) ]
     set -g HOSTNAME_PROMPT (hostname)
   end
 end
