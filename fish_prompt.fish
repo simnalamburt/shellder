@@ -1,9 +1,27 @@
 # Set these options in your config.fish (if you want to :])
 #
 #     set -g theme_display_user yes
-#     set -g theme_hide_hostname yes
-#     set -g theme_hide_hostname no
+#     set -g theme_hostname never
+#     set -g theme_hostname always
 #     set -g default_user your_normal_user
+
+
+
+# Backward compatibility
+#
+# Note: Do not depend on these behavior. These can be removed in anytime by the
+# author in the name of code readability.
+if set -q theme_hide_hostname
+  # Existing $theme_hostname will always override $theme_hide_hostname
+  if not set -q theme_hostname
+    if [ "theme_hide_hostname" = "yes" ]
+      set -g theme_hostname never
+    end
+    if [ "theme_hide_hostname" = "no" ]
+      set -g theme_hostname always
+    end
+  end
+end
 
 
 #
@@ -87,7 +105,7 @@ end
 
 function get_hostname -d "Set current hostname to prompt variable $HOSTNAME_PROMPT if connected via SSH"
   set -g HOSTNAME_PROMPT ""
-  if [ "$theme_hide_hostname" = "no" -o \( "$theme_hide_hostname" != "yes" -a -n "$SSH_CLIENT" \) ]
+  if [ "$theme_hostname" = "always" -o \( "$theme_hostname" != "never" -a -n "$SSH_CLIENT" \) ]
     set -g HOSTNAME_PROMPT (hostname)
   end
 end
