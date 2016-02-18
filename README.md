@@ -15,13 +15,14 @@ shellder
 3. **zsh** + **fish** support
 
 #### Installation
-[zplug] for zsh user, [oh my fish] for fish user
+[zplug] for zsh, [Fisherman] for fish 
+
 ```shell
 # zsh
 zplug "simnalamburt/shellder"
 
 # fish
-omf install shellder
+fisher install shellder
 ```
 
 You'll need powerline patched font.
@@ -33,7 +34,7 @@ You'll need powerline patched font.
 [Jean Anouilh]:   https://en.wikipedia.org/wiki/Jean_Anouilh
 [seoul256.vim]:   https://github.com/junegunn/seoul256.vim
 [zplug]:          https://github.com/b4b4r07/
-[oh my fish]:     https://github.com/oh-my-fish/oh-my-fish
+[Fisherman]:      https://github.com/fisherman/fisherman
 [MIT License]:    https://opensource.org/licenses/MIT
 [simnalamburt]:   https://github.com/simnalamburt
 [al]:             https://github.com/simnalamburt/shellder/graphs/contributors
