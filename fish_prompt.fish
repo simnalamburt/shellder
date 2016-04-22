@@ -236,10 +236,6 @@ function prompt_status -d "the symbols for a non zero exit status, root and back
     end
 end
 
-function available -a name -d "Check if a function or program is available."
-  type "$name" ^/dev/null >&2
-end
-
 
 #
 # Prompt
@@ -250,8 +246,8 @@ function fish_prompt
   prompt_virtual_env
   prompt_user
   prompt_dir
-  available hg;  and prompt_hg
-  available git; and prompt_git
-  available svn; and prompt_svn
+  type -q hg;  and prompt_hg
+  type -q git; and prompt_git
+  type -q svn; and prompt_svn
   prompt_finish
 end
