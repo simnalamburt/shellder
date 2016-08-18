@@ -27,7 +27,14 @@ omf install shellder
 fisher shellder
 ```
 
-You'll need a powerline patched font.
+#### Fonts
+You'll need a powerline patched font. If you don't have one, download one or
+patch some fonts on you own.
+
+- https://github.com/powerline/fonts
+- https://github.com/ryanoasis/nerd-fonts
+
+<br>
 
 --------
 
