@@ -24,7 +24,7 @@ zplug "simnalamburt/shellder"
 # fish
 omf install shellder
 
-fisher shellder
+fisher simnalamburt/shellder
 ```
 
 #### Fonts
