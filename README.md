@@ -14,13 +14,10 @@ shellder
 2. **No solarized** ― xterm256 colors are beautiful enough, inspired by [seoul256.vim]
 3. **zsh** + **fish** support
 
-## Installation
-
+Installation
+--------
 ### fish
-
-Use [chips].
-
-Add to `~/.config/chips/plugin.yaml`:
+Use [chips]. Add to `~/.config/chips/plugin.yaml`:
 
 ```yaml
 github:
@@ -30,6 +27,7 @@ github:
 Then run `chips`.
 
 ### zsh
+Use [zplug]. Add below to your `.zshrc`:
 
 ```zsh
 zplug "simnalamburt/shellder"
