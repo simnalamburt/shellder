@@ -14,27 +14,33 @@ shellder
 2. **No solarized** ― xterm256 colors are beautiful enough, inspired by [seoul256.vim]
 3. **zsh** + **fish** support
 
-#### Installation
-For zsh users; use [zplug]<br>
-For fish users; use [oh my fish] or [fisher]
-```shell
-# zsh
-zplug "simnalamburt/shellder"
+## Installation
 
-# fish
-omf install shellder
+### fish
 
-fisher simnalamburt/shellder
+Use [chips].
+
+Add to `~/.config/chips/plugin.yaml`:
+
+```yaml
+github:
+- simnalamburt/shellder
 ```
 
-#### Fonts
+Then run `chips`.
+
+### zsh
+
+```zsh
+zplug "simnalamburt/shellder"
+```
+
+## Fonts
 You'll need a powerline patched font. If you don't have one, download one or
 patch some fonts on you own.
 
 - https://github.com/powerline/fonts
 - https://github.com/ryanoasis/nerd-fonts
-
-<br>
 
 --------
 
@@ -43,8 +49,7 @@ patch some fonts on you own.
 [Jean Anouilh]:   https://en.wikipedia.org/wiki/Jean_Anouilh
 [seoul256.vim]:   https://github.com/junegunn/seoul256.vim
 [zplug]:          https://github.com/b4b4r07/
-[oh my fish]:     https://github.com/oh-my-fish/oh-my-fish
-[fisher]:         https://github.com/fisherman/fisherman
+[chips]:          https://github.com/xtendo-org/chips
 [MIT License]:    https://opensource.org/licenses/MIT
 [simnalamburt]:   https://github.com/simnalamburt
 [al]:             https://github.com/simnalamburt/shellder/graphs/contributors
