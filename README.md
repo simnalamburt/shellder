@@ -46,7 +46,7 @@ patch some fonts on you own.
 
 [Jean Anouilh]:   https://en.wikipedia.org/wiki/Jean_Anouilh
 [seoul256.vim]:   https://github.com/junegunn/seoul256.vim
-[zplug]:          https://github.com/b4b4r07/
+[zplug]:          https://github.com/zplug/zplug
 [chips]:          https://github.com/xtendo-org/chips
 [MIT License]:    https://opensource.org/licenses/MIT
 [simnalamburt]:   https://github.com/simnalamburt
