@@ -30,7 +30,7 @@ Then run `chips`.
 Use [zplug]. Add below to your `.zshrc`:
 
 ```zsh
-zplug 'simnalamburt/shellder', use:shellder.zsh-theme
+zplug 'simnalamburt/shellder', as:theme
 ```
 
 ## Fonts
