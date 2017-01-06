@@ -1,9 +1,29 @@
 # vim:ft=zsh ts=2 sw=2 sts=2
-
+ 
 #
 # Segment drawing
 #
 CURRENT_BG='NONE'
+
+#
+# color scheme
+#
+SHELLDER_CONTEXT_BG=${SHELLDER_CONTEXT_BG:-238}
+SHELLDER_CONTEXT_FG=${SHELLDER_CONTEXT_FG:-250}
+
+SHELLDER_DIRECTORY_BG=${SHELLDER_DIRECTORY_BG:-234}
+SHELLDER_DIRECTORY_FG=${SHELLDER_DIRECTORY_FG:-231}
+
+SHELLDER_GIT_CLEAN_BG=${SHELLDER_GIT_CLEAN_BG:-'green'}
+SHELLDER_GIT_CLEAN_FG=${SHELLDER_GIT_CLEAN_FG:-'black'}
+SHELLDER_GIT_DIRTY_BG=${SHELLDER_GIT_DIRTY_BG:-202}
+SHELLDER_GIT_DIRTY_FG=${SHELLDER_GIT_DIRTY_FG:-'black'}
+
+SHELLDER_VIRTUALENV_BG=${SHELLDER_VIRTUALENV_BG:-'blue'}
+SHELLDER_VIRTUALENV_FG=${SHELLDER_VIRTUALENV_FG:-'black'}
+
+SHELLDER_STATUS_BG=${SHELLDER_STATUS_BG:-'black'}
+SHELLDER_STATUS_FG=${SHELLDER_STATUS_FG:-'default'}
 
 # Special Powerline characters
 () {
@@ -52,7 +72,7 @@ prompt_context() {
     else
       prompt="%(!.%{%F{yellow}%}.)%m"
     fi
-    prompt_segment 238 250 $prompt
+    prompt_segment $SHELLDER_CONTEXT_BG $SHELLDER_CONTEXT_FG $prompt
   fi
 }
 
@@ -62,7 +82,7 @@ prompt_git() {
   repo_path=$(git rev-parse --git-dir 2>/dev/null)
 
   if [[ -n $repo_path ]]; then
-    local PL_BRANCH_CHAR dirty color mode ref
+    local PL_BRANCH_CHAR dirty bgcolor fgcolor mode ref
 
     () {
       local LC_ALL="" LC_CTYPE="en_US.UTF-8"
@@ -72,14 +92,17 @@ prompt_git() {
     dirty=$(command git status --porcelain --ignore-submodules=dirty 2> /dev/null)
     if [[ -n $dirty ]]; then
       if [[ -z $MSYS ]]; then
-        color='yellow'
+        bgcolor='yellow'
+        fgcolor='black'
       else
-        color='202' # vcs_info will be disabled with MSYS2, warn it with color
+        bgcolor=$SHELLDER_GIT_DIRTY_BG # vcs_info will be disabled with MSYS2, warn it with color
+        fgcolor=$SHELLDER_GIT_DIRTY_FG
       fi
     else
-      color='green'
+      bgcolor=$SHELLDER_GIT_CLEAN_BG
+      fgcolor=$SHELLDER_GIT_CLEAN_FG
     fi
-    prompt_segment $color black
+    prompt_segment $bgcolor $fgcolor
 
     if [[ -e "${repo_path}/BISECT_LOG" ]]; then
       mode=" <B>"
@@ -147,14 +170,14 @@ prompt_hg() {
 
 # Dir: current working directory
 prompt_dir() {
-  prompt_segment 234 231 '%~'
+  prompt_segment $SHELLDER_DIRECTORY_BG $SHELLDER_DIRECTORY_FG '%~'
 }
 
 # Virtualenv: current working virtualenv
 prompt_virtualenv() {
   local virtualenv_path="$VIRTUAL_ENV"
   if [[ -n $virtualenv_path && -n $VIRTUAL_ENV_DISABLE_PROMPT ]]; then
-    prompt_segment blue black "(`basename $virtualenv_path`)"
+    prompt_segment $SHELLDER_VIRTUALENV_BG $SHELLDER_VIRTUALENV_FG "(`basename $virtualenv_path`)"
   fi
 }
 
@@ -166,7 +189,7 @@ prompt_status() {
   [[ $UID -eq 0 ]] && symbols+="%{%F{yellow}%}⚡"
   [[ $(jobs -l | wc -l) -gt 0 ]] && symbols+="%{%F{cyan}%}⚙"
 
-  [[ -n "$symbols" ]] && prompt_segment black default "$symbols"
+  [[ -n "$symbols" ]] && prompt_segment $SHELLDER_STATUS_BG $SHELLDER_STATUS_FG "$symbols"
 }
 
 
