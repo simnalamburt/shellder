@@ -1,6 +1,29 @@
 # vim:ft=zsh ts=2 sw=2 sts=2
 
 #
+# color scheme
+#
+
+CONTEXT_BG = 238
+CONTEXT_FG = 250
+
+DIRECTORY_BG
+DIRECTORY_FG
+
+GIT_CLEAN_BG
+GIT_CLEAN_FG
+GIT_DIRTY_BG
+GIT_DIRTY_FG
+
+VIRTUALENV_BG
+VIRTUALENV_FG
+
+
+STATUS_BG
+STATUS_FG
+
+
+#
 # Segment drawing
 #
 CURRENT_BG='NONE'
@@ -52,7 +75,7 @@ prompt_context() {
     else
       prompt="%(!.%{%F{yellow}%}.)%m"
     fi
-    prompt_segment 238 250 $prompt
+    prompt_segment $CONTEXT_BG $CONTEXT_FG $prompt
   fi
 }
 
