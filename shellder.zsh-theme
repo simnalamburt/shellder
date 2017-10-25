@@ -1,5 +1,5 @@
 # vim:ft=zsh ts=2 sw=2 sts=2
- 
+
 #
 # Segment drawing
 #
@@ -170,7 +170,7 @@ prompt_hg() {
 
 # Dir: current working directory
 prompt_dir() {
-  prompt_segment $SHELLDER_DIRECTORY_BG $SHELLDER_DIRECTORY_FG '%~'
+  prompt_segment $SHELLDER_DIRECTORY_BG $SHELLDER_DIRECTORY_FG $(shrink_path -f)
 }
 
 # Virtualenv: current working virtualenv
