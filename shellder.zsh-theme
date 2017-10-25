@@ -170,7 +170,13 @@ prompt_hg() {
 
 # Dir: current working directory
 prompt_dir() {
-  prompt_segment $SHELLDER_DIRECTORY_BG $SHELLDER_DIRECTORY_FG $(shrink_path -f)
+  local dir
+  if type shrink_path &> /dev/null; then
+    dir=$(shrink_path -f)
+  else
+    dir='%~'
+  fi
+  prompt_segment $SHELLDER_DIRECTORY_BG $SHELLDER_DIRECTORY_FG $dir
 }
 
 # Virtualenv: current working virtualenv
