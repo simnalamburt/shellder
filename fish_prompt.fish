@@ -237,8 +237,10 @@ function prompt_status -d "the symbols for a non zero exit status, root and back
     end
 end
 
-function type -q -a name -d "Check if a function or program is type -q."
-  type "$name" ^/dev/null >&2
+if not printf '%s\n' '2.2.0' $FISH_VERSION | sort --check=silent --version-sort
+  function type -q -a name -d "Check if a function or program is type -q."
+    type "$name" ^/dev/null >&2
+  end
 end
 
 
