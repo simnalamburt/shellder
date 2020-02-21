@@ -16,22 +16,29 @@ shellder
 
 Installation
 --------
-### fish
-Use [chips]. Add to `~/.config/chips/plugin.yaml`:
+You can install shellder via various plugin managers.
 
+### Zsh, [zinit]
+```zsh
+# ~/.zshrc
+zinit light simnalamburt/shellder
+```
+
+### Fish, [chips]
 ```yaml
+# ~/.config/chips/plugin.yaml
+github:
+- simnalamburt/shellder
+```
+
+### Fish, [oh-my-fish]
+```yaml
+# ~/.config/chips/plugin.yaml
 github:
 - simnalamburt/shellder
 ```
 
 Then run `chips`.
-
-### zsh
-Use [zplug]. Add below to your `.zshrc`:
-
-```zsh
-zplug 'simnalamburt/shellder', as:theme
-```
 
 ## Fonts
 You'll need a powerline patched font. If you don't have one, download one or
@@ -44,12 +51,13 @@ patch some fonts on you own.
 
 [MIT License] © [simnalamburt] et [al]
 
-[Jean Anouilh]:   https://en.wikipedia.org/wiki/Jean_Anouilh
-[seoul256.vim]:   https://github.com/junegunn/seoul256.vim
-[zplug]:          https://github.com/zplug/zplug
-[chips]:          https://github.com/xtendo-org/chips
-[MIT License]:    https://opensource.org/licenses/MIT
-[simnalamburt]:   https://github.com/simnalamburt
-[al]:             https://github.com/simnalamburt/shellder/graphs/contributors
+[Jean Anouilh]: https://en.wikipedia.org/wiki/Jean_Anouilh
+[seoul256.vim]: https://github.com/junegunn/seoul256.vim
+[zinit]: https://github.com/zdharma/zinit
+[chips]: https://github.com/xtendo-org/chips
+[oh-my-fish]: https://github.com/oh-my-fish/oh-my-fish
+[MIT License]: https://opensource.org/licenses/MIT
+[simnalamburt]: https://github.com/simnalamburt
+[al]: https://github.com/simnalamburt/shellder/graphs/contributors
 
-[i-license]:      https://img.shields.io/badge/license-MIT-blue.svg
+[i-license]: https://img.shields.io/badge/license-MIT-blue.svg
