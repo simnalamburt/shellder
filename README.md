@@ -38,8 +38,6 @@ github:
 - simnalamburt/shellder
 ```
 
-Then run `chips`.
-
 ## Fonts
 You'll need a powerline patched font. If you don't have one, download one or
 patch some fonts on you own.
