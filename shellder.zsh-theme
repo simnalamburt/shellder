@@ -8,19 +8,30 @@ CURRENT_BG='NONE'
 #
 # color scheme
 #
-SHELLDER_CONTEXT_BG=${SHELLDER_CONTEXT_BG:-238}
-SHELLDER_CONTEXT_FG=${SHELLDER_CONTEXT_FG:-250}
+SHELLDER_CONTEXT_BG=${SHELLDER_CONTEXT_BG:-237}
+SHELLDER_CONTEXT_FG=${SHELLDER_CONTEXT_FG:-245}
 
-SHELLDER_DIRECTORY_BG=${SHELLDER_DIRECTORY_BG:-234}
-SHELLDER_DIRECTORY_FG=${SHELLDER_DIRECTORY_FG:-231}
+SHELLDER_DIRECTORY_BG=${SHELLDER_DIRECTORY_BG:-240}
+SHELLDER_DIRECTORY_FG=${SHELLDER_DIRECTORY_FG:-250}
 
-SHELLDER_GIT_CLEAN_BG=${SHELLDER_GIT_CLEAN_BG:-'green'}
+SHELLDER_GIT_CLEAN_BG=${SHELLDER_GIT_CLEAN_BG:-040}
 SHELLDER_GIT_CLEAN_FG=${SHELLDER_GIT_CLEAN_FG:-'black'}
+
+SHELLDER_GIT_UNTRACKED_BG=${SHELLDER_GIT_UNTRACKED_BG:-045}
+SHELLDER_GIT_UNTRACKED_FG=${SHELLDER_GIT_UNTRACKED_FG:-'black'}
+
 SHELLDER_GIT_DIRTY_BG=${SHELLDER_GIT_DIRTY_BG:-202}
 SHELLDER_GIT_DIRTY_FG=${SHELLDER_GIT_DIRTY_FG:-'black'}
 
-SHELLDER_VIRTUALENV_BG=${SHELLDER_VIRTUALENV_BG:-'blue'}
-SHELLDER_VIRTUALENV_FG=${SHELLDER_VIRTUALENV_FG:-'black'}
+SHELLDER_GIT_MODIFIED_BG=${SHELLDER_GIT_MODIFIED_BG:-172}
+SHELLDER_GIT_MODIFIED_FG=${SHELLDER_GIT_MODIFIED_FG:-'black'}
+
+SHELLDER_GIT_STAGED_BG=${SHELLDER_GIT_STAGED_BG:-196}
+SHELLDER_GIT_STAGED_FG=${SHELLDER_GIT_STAGED_FG:-228}
+
+
+SHELLDER_VIRTUALENV_BG=${SHELLDER_VIRTUALENV_BG:-237}
+SHELLDER_VIRTUALENV_FG=${SHELLDER_VIRTUALENV_FG:-120}
 
 SHELLDER_STATUS_BG=${SHELLDER_STATUS_BG:-'black'}
 SHELLDER_STATUS_FG=${SHELLDER_STATUS_FG:-'default'}
@@ -89,15 +100,19 @@ prompt_git() {
       PL_BRANCH_CHAR=$'\ue0a0' # 
     }
 
-    dirty=$(command git status --porcelain --ignore-submodules=dirty 2> /dev/null)
-    if [[ -n $dirty ]]; then
-      if [[ -z $MSYS ]]; then
-        bgcolor='yellow'
-        fgcolor='black'
-      else
-        bgcolor=$SHELLDER_GIT_DIRTY_BG # vcs_info will be disabled with MSYS2, warn it with color
-        fgcolor=$SHELLDER_GIT_DIRTY_FG
-      fi
+    modified=$(command git status --porcelain | sed -e 's/^ //g' | grep '^M' 2> /dev/null)
+    untracked=$(command git status --porcelain | sed -e 's/^ //g' | grep '^?' 2> /dev/null)
+    staged=$(command git status --porcelain | sed -e 's/^ //g' | grep '^A' 2> /dev/null) # this wins over modified
+
+    if [[ -n $staged ]]; then
+      bgcolor=$SHELLDER_GIT_STAGED_BG
+      fgcolor=$SHELLDER_GIT_STAGED_FG
+    elif [[ -n $modified ]]; then
+      bgcolor=$SHELLDER_GIT_MODIFIED_BG
+      fgcolor=$SHELLDER_GIT_MODIFIED_FG
+    elif [[ -n $untracked ]]; then
+      bgcolor=$SHELLDER_GIT_UNTRACKED_BG
+      fgcolor=$SHELLDER_GIT_UNTRACKED_FG
     else
       bgcolor=$SHELLDER_GIT_CLEAN_BG
       fgcolor=$SHELLDER_GIT_CLEAN_FG
@@ -183,7 +198,7 @@ prompt_dir() {
 prompt_virtualenv() {
   local virtualenv_path="$VIRTUAL_ENV"
   if [[ -n $virtualenv_path && -n $VIRTUAL_ENV_DISABLE_PROMPT ]]; then
-    prompt_segment $SHELLDER_VIRTUALENV_BG $SHELLDER_VIRTUALENV_FG "(`basename $virtualenv_path`)"
+    prompt_segment $SHELLDER_VIRTUALENV_BG $SHELLDER_VIRTUALENV_FG "`basename $virtualenv_path`"
   fi
 }
 
