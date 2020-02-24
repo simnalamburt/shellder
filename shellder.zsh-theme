@@ -39,35 +39,36 @@ SHELLDER_STATUS_BG=${SHELLDER_STATUS_BG:-'black'}
 SHELLDER_STATUS_FG=${SHELLDER_STATUS_FG:-'default'}
 
 # Special Powerline characters
-() {
-  local LC_ALL="" LC_CTYPE="en_US.UTF-8"
+set_separator() {
+  local LC_ALL='' LC_CTYPE='en_US.UTF-8'
   SEGMENT_SEPARATOR=$'\ue0b0'
 }
+set_separator
 
 # Begin a segment
 # Takes two arguments, background and foreground. Both can be omitted,
 # rendering default background/foreground.
 prompt_segment() {
   local bg fg
-  [[ -n $1 ]] && bg="%K{$1}" || bg="%k"
-  [[ -n $2 ]] && fg="%F{$2}" || fg="%f"
-  if [[ $CURRENT_BG != 'NONE' && $1 != $CURRENT_BG ]]; then
+  [[ -n $1 ]] && bg="%K{$1}" || bg='%k'
+  [[ -n $2 ]] && fg="%F{$2}" || fg='%f'
+  if [[ "$CURRENT_BG" != 'NONE' && $1 != "$CURRENT_BG" ]]; then
     echo -n " %{$bg%F{$CURRENT_BG}%}$SEGMENT_SEPARATOR%{$fg%} "
   else
     echo -n "%{$bg%}%{$fg%} "
   fi
   CURRENT_BG=$1
-  [[ -n $3 ]] && echo -n $3
+  [[ -n $3 ]] && echo -n "$3"
 }
 
 # End the prompt, closing any open segments
 prompt_end() {
-  if [[ -n $CURRENT_BG ]]; then
+  if [[ -n "$CURRENT_BG" ]]; then
     echo -n " %{%k%F{$CURRENT_BG}%}$SEGMENT_SEPARATOR"
   else
-    echo -n "%{%k%}"
+    echo -n '%{%k%}'
   fi
-  echo -n "%{%f%}"
+  echo -n '%{%f%}'
   CURRENT_BG=''
 }
 
@@ -83,30 +84,36 @@ prompt_context() {
     if [[ "$USER" != "$DEFAULT_USER" ]]; then
       prompt="%(!.%{%F{yellow}%}.)$USER@%m"
     else
-      prompt="%(!.%{%F{yellow}%}.)%m"
+      prompt='%(!.%{%F{yellow}%}.)%m'
     fi
-    prompt_segment $SHELLDER_CONTEXT_BG $SHELLDER_CONTEXT_FG $prompt
+    prompt_segment "$SHELLDER_CONTEXT_BG" "$SHELLDER_CONTEXT_FG" "$prompt"
   fi
 }
 
 # Git: branch/detached head, dirty status
 prompt_git() {
   local repo_path
+  local GIT_STATUS
+
   repo_path=$(git rev-parse --git-dir 2>/dev/null)
 
   if [[ -n $repo_path ]]; then
     local PL_BRANCH_CHAR dirty bgcolor fgcolor mode ref
 
-    () {
-      local LC_ALL="" LC_CTYPE="en_US.UTF-8"
+    set_branch_char() {
+      local LC_ALL='' LC_CTYPE='en_US.UTF-8'
       PL_BRANCH_CHAR=$'\ue0a0' # 
     }
+    set_branch_char
 
-    GIT_STATUS=$(command git status --porcelain | sed -e 's/^ //g' 2>/dev/null)
-    modified=$(echo $GIT_STATUS | grep '^M')
-    untracked=$(echo $GIT_STATUS | grep '^?')
-    added=$(echo $GIT_STATUS | grep '^A')
-    staged=$(git diff --name-only --cached | cat)
+    GIT_STATUS=$(
+      command git status --porcelain --ignore-submodules=dirty 2>/dev/null |
+        sed -e 's/^ //g'
+    )
+    modified=$(<<< "$GIT_STATUS" grep '^M')
+    untracked=$(<<< "$GIT_STATUS" grep '^?')
+    added=$(<<< "$GIT_STATUS" grep '^A')
+    staged=$(git diff --name-only --cached)
     unpushed=$(command git cherry 2>/dev/null)
 
     if [[ -n $added ]]; then
@@ -128,14 +135,14 @@ prompt_git() {
       bgcolor=$SHELLDER_GIT_CLEAN_BG
       fgcolor=$SHELLDER_GIT_CLEAN_FG
     fi
-    prompt_segment $bgcolor $fgcolor
+    prompt_segment "$bgcolor" "$fgcolor"
 
     if [[ -e "${repo_path}/BISECT_LOG" ]]; then
-      mode=" <B>"
+      mode=' <B>'
     elif [[ -e "${repo_path}/MERGE_HEAD" ]]; then
-      mode=" >M<"
+      mode=' >M<'
     elif [[ -e "${repo_path}/rebase" || -e "${repo_path}/rebase-apply" || -e "${repo_path}/rebase-merge" || -e "${repo_path}/../.dotest" ]]; then
-      mode=" >R>"
+      mode=' >R>'
     fi
 
     # vcs_info is too slow with MSYS2 (~300ms with i7-6770K + SSD)
@@ -160,14 +167,14 @@ prompt_git() {
 }
 
 prompt_hg() {
-  local rev status
-  if $(hg id >/dev/null 2>&1); then
-    if $(hg prompt >/dev/null 2>&1); then
-      if [[ $(hg prompt "{status|unknown}") = "?" ]]; then
+  local rev
+  if hg id >/dev/null 2>&1; then
+    if hg prompt >/dev/null 2>&1; then
+      if [[ $(hg prompt '{status|unknown}') = '?' ]]; then
         # if files are not added
         prompt_segment red white
         st='±'
-      elif [[ -n $(hg prompt "{status|modified}") ]]; then
+      elif [[ -n $(hg prompt '{status|modified}') ]]; then
         # if any modification
         prompt_segment yellow black
         st='±'
@@ -175,15 +182,15 @@ prompt_hg() {
         # if working copy is clean
         prompt_segment green black
       fi
-      echo -n $(hg prompt "☿ {rev}@{branch}") $st
+      echo -n "$(hg prompt '☿ {rev}@{branch}')" "$st"
     else
-      st=""
+      st=''
       rev=$(hg id -n 2>/dev/null | sed 's/[^-0-9]//g')
       branch=$(hg id -b 2>/dev/null)
-      if `hg st | grep -q "^\?"`; then
+      if hg st | grep -q "^\?"; then
         prompt_segment red black
         st='±'
-      elif `hg st | grep -q "^[MA]"`; then
+      elif hg st | grep -q '^[MA]'; then
         prompt_segment yellow black
         st='±'
       else
@@ -202,14 +209,14 @@ prompt_dir() {
   else
     dir='%~'
   fi
-  prompt_segment $SHELLDER_DIRECTORY_BG $SHELLDER_DIRECTORY_FG $dir
+  prompt_segment "$SHELLDER_DIRECTORY_BG" "$SHELLDER_DIRECTORY_FG" "$dir"
 }
 
 # Virtualenv: current working virtualenv
 prompt_virtualenv() {
   local virtualenv_path="$VIRTUAL_ENV"
   if [[ -n $virtualenv_path && -n $VIRTUAL_ENV_DISABLE_PROMPT ]]; then
-    prompt_segment $SHELLDER_VIRTUALENV_BG $SHELLDER_VIRTUALENV_FG "`basename $virtualenv_path`"
+    prompt_segment "$SHELLDER_VIRTUALENV_BG" "$SHELLDER_VIRTUALENV_FG" "$(basename "$virtualenv_path")"
   fi
 }
 
@@ -217,11 +224,11 @@ prompt_virtualenv() {
 prompt_status() {
   local symbols
   symbols=()
-  [[ $RETVAL -ne 0 ]] && symbols+="%{%F{red}%}✘"
-  [[ $UID -eq 0 ]] && symbols+="%{%F{yellow}%}⚡"
-  [[ $(jobs -l | wc -l) -gt 0 ]] && symbols+="%{%F{cyan}%}⚙"
+  [[ $RETVAL -ne 0 ]] && symbols+='%{%F{red}%}✘'
+  [[ $UID -eq 0 ]] && symbols+='%{%F{yellow}%}⚡'
+  [[ $(jobs -l | wc -l) -gt 0 ]] && symbols+='%{%F{cyan}%}⚙'
 
-  [[ -n "$symbols" ]] && prompt_segment $SHELLDER_STATUS_BG $SHELLDER_STATUS_FG "$symbols"
+  [[ -n "$symbols" ]] && prompt_segment "$SHELLDER_STATUS_BG" "$SHELLDER_STATUS_FG" "$symbols"
 }
 
 
@@ -239,6 +246,6 @@ build_prompt() {
   prompt_end
 }
 
-export VIRTUAL_ENV_DISABLE_PROMPT="true"
+export VIRTUAL_ENV_DISABLE_PROMPT='true'
 setopt prompt_subst
 PROMPT='%{%f%b%k%}$(build_prompt) '
