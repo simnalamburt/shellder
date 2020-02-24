@@ -35,7 +35,7 @@ SHELLDER_GIT_ADDED_FG=${SHELLDER_GIT_ADDED_FG:-'black'}
 SHELLDER_VIRTUALENV_BG=${SHELLDER_VIRTUALENV_BG:-017}
 SHELLDER_VIRTUALENV_FG=${SHELLDER_VIRTUALENV_FG:-189}
 
-SHELLDER_STATUS_BG=${SHELLDER_STATUS_BG:-'black'}
+SHELLDER_STATUS_BG=${SHELLDER_STATUS_BG:-236}
 SHELLDER_STATUS_FG=${SHELLDER_STATUS_FG:-'default'}
 
 # Special Powerline characters
@@ -224,7 +224,7 @@ prompt_virtualenv() {
 prompt_status() {
   local symbols
   symbols=()
-  [[ $RETVAL -ne 0 ]] && symbols+='%{%F{red}%}✘'
+  [[ $RETVAL -ne 0 ]] && symbols+="%{%F{yellow}%}$RETVAL"
   [[ $UID -eq 0 ]] && symbols+='%{%F{yellow}%}⚡'
   [[ $(jobs -l | wc -l) -gt 0 ]] && symbols+='%{%F{cyan}%}⚙'
 
