@@ -1,18 +1,13 @@
-<img src="http://cdn.bulbagarden.net/upload/4/40/090Shellder.png"
-  align=left width=175px height=175px>
+<img align=left width=175px height=175px
+src="https://raw.githubusercontent.com/simnalamburt/i/master/shellder/shellder.png">
 
 shellder
 ========
-> Things are beautiful if you love them. ― *[Jean Anouilh]*<br>
-[![i-license]](/LICENSE)
+1. **No solarized** ― xterm256 colors are beautiful enough
+2. **zsh** + **fish** support
+3. **Speed** ― Carefully optimized for slow environments like MSYS2
 
-<br>
-
-![](http://i.imgur.com/xZJHgq8.png)
-
-1. **Speed** ― Carefully optimized for slow environments like msys2
-2. **No solarized** ― xterm256 colors are beautiful enough, inspired by [seoul256.vim]
-3. **zsh** + **fish** support
+![screenshot image of shellder](https://raw.githubusercontent.com/simnalamburt/i/master/shellder/screenshot.png)
 
 Installation
 --------
