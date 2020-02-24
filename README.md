@@ -40,17 +40,15 @@ patch some fonts on you own.
 - https://github.com/powerline/fonts
 - https://github.com/ryanoasis/nerd-fonts
 
+&nbsp;
+
 --------
+*shellder* is primarily distributed under the terms of both the [MIT license]
+and the [Apache License (Version 2.0)]. See [COPYRIGHT] for details.
 
-[MIT License] © [simnalamburt] et [al]
-
-[Jean Anouilh]: https://en.wikipedia.org/wiki/Jean_Anouilh
-[seoul256.vim]: https://github.com/junegunn/seoul256.vim
 [zinit]: https://github.com/zdharma/zinit
 [chips]: https://github.com/xtendo-org/chips
 [oh-my-fish]: https://github.com/oh-my-fish/oh-my-fish
-[MIT License]: https://opensource.org/licenses/MIT
-[simnalamburt]: https://github.com/simnalamburt
-[al]: https://github.com/simnalamburt/shellder/graphs/contributors
-
-[i-license]: https://img.shields.io/badge/license-MIT-blue.svg
+[MIT license]: LICENSE-MIT
+[Apache License (Version 2.0)]: LICENSE-APACHE
+[COPYRIGHT]: COPYRIGHT
