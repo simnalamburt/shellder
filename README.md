@@ -33,6 +33,19 @@ github:
 - simnalamburt/shellder
 ```
 
+&nbsp;
+
+Configuration
+-------
+You can turn off Fish-like path shrinking by adding the following to your `~/.zshrc`:
+
+```zsh
+# ~/.zshrc
+export SHELLDER_KEEP_PATH=1
+```
+
+&nbsp;
+
 ## Fonts
 You'll need a powerline patched font. If you don't have one, download one or
 patch some fonts on you own.

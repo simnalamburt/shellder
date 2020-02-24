@@ -201,13 +201,28 @@ prompt_hg() {
   fi
 }
 
+# Turn '/some/quite/very/long/path' into '/s/q/v/l/path'
+function shrinked_path() {
+  local paths=(${PWD/$HOME/\~}) 'cur_dir'
+  paths=(${(s:/:)paths})
+  for idx in {1..$#paths}; do
+    if [[ idx -lt $#paths ]]; then
+      cur_dir+="${paths[idx]:0:1}"
+    else
+      cur_dir+="${paths[idx]}"
+    fi
+    cur_dir+='/'
+  done
+  echo "${cur_dir: :-1}"
+}
+
 # Dir: current working directory
 prompt_dir() {
   local dir
-  if (( $+functions[shrink_path] )); then
-    dir=$(shrink_path -f)
-  else
+  if [[ -n $SHELLDER_KEEP_PATH ]]; then
     dir='%~'
+  else
+    dir=$(shrinked_path)
   fi
   prompt_segment "$SHELLDER_DIRECTORY_BG" "$SHELLDER_DIRECTORY_FG" "$dir"
 }
@@ -247,5 +262,4 @@ build_prompt() {
 }
 
 export VIRTUAL_ENV_DISABLE_PROMPT='true'
-setopt prompt_subst
 PROMPT='%{%f%b%k%}$(build_prompt) '
