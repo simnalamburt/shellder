@@ -230,5 +230,7 @@ build_prompt() {
   prompt_hg
   prompt_end
 }
+
+export VIRTUAL_ENV_DISABLE_PROMPT="true"
 setopt prompt_subst
 PROMPT='%{%f%b%k%}$(build_prompt) '
