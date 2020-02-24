@@ -29,6 +29,9 @@ SHELLDER_GIT_MODIFIED_FG=${SHELLDER_GIT_MODIFIED_FG:-'black'}
 SHELLDER_GIT_STAGED_BG=${SHELLDER_GIT_STAGED_BG:-196}
 SHELLDER_GIT_STAGED_FG=${SHELLDER_GIT_STAGED_FG:-228}
 
+SHELLDER_GIT_ADDED_BG=${SHELLDER_GIT_ADDED_BG:-165}
+SHELLDER_GIT_ADDED_FG=${SHELLDER_GIT_ADDED_FG:-015}
+
 SHELLDER_VIRTUALENV_BG=${SHELLDER_VIRTUALENV_BG:-237}
 SHELLDER_VIRTUALENV_FG=${SHELLDER_VIRTUALENV_FG:-120}
 
@@ -99,12 +102,17 @@ prompt_git() {
       PL_BRANCH_CHAR=$'\ue0a0' # 
     }
 
-    modified=$(command git status --porcelain | sed -e 's/^ //g' | grep '^M' 2> /dev/null)
-    untracked=$(command git status --porcelain | sed -e 's/^ //g' | grep '^?' 2> /dev/null)
-    staged=$(command git status --porcelain | sed -e 's/^ //g' | grep '^A' 2> /dev/null) # this wins over modified
+    GIT_STATUS=$(command git status --porcelain | sed -e 's/^ //g' 2>/dev/null)
+    modified=$(echo $GIT_STATUS | grep '^M')
+    untracked=$(echo $GIT_STATUS | grep '^?')
+    added=$(echo $GIT_STATUS | grep '^A')
+    staged=$(git diff --name-only --cached | cat)
     unpushed=$(command git cherry 2>/dev/null)
 
-    if [[ -n $staged ]]; then
+    if [[ -n $added ]]; then
+      bgcolor=$SHELLDER_GIT_ADDED_BG
+      fgcolor=$SHELLDER_GIT_ADDED_FG
+    elif [[ -n $staged ]]; then
       bgcolor=$SHELLDER_GIT_STAGED_BG
       fgcolor=$SHELLDER_GIT_STAGED_FG
     elif [[ -n $modified ]]; then
