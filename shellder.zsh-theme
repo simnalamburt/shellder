@@ -79,7 +79,7 @@ prompt_end() {
 # Context: user@hostname (who am I and where am I)
 prompt_context() {
   local prompt
-  if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
+  if [[ -n "$SSH_CLIENT" ]]; then
     if [[ "$USER" != "$DEFAULT_USER" ]]; then
       prompt="%(!.%{%F{yellow}%}.)$USER@%m"
     else
