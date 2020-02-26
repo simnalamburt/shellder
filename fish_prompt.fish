@@ -159,7 +159,7 @@ function prompt_git -d "Display the current git state"
 
       # Check if there's any commit in the repo
       set -l empty 0
-      git rev-parse --quiet --verify HEAD > /dev/null ^&1; or set empty 1
+      git rev-parse --quiet --verify HEAD > /dev/null 2>&1; or set empty 1
 
       set -l target
       if [ $empty = 1 ]
