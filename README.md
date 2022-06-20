@@ -64,6 +64,8 @@ You can turn off Fish-like path shrinking by adding the following to your `~/.zs
 export SHELLDER_KEEP_PATH=1
 ```
 
+To control path shrinking in fish shell, set `fish_prompt_pwd_dir_length` or `fish_prompt_pwd_full_dirs` environment variable. See [prompt_pwd](https://fishshell.com/docs/current/cmds/prompt_pwd.html) for the further details.
+
 &nbsp;
 
 ## Fonts
